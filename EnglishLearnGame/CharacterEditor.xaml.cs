@@ -251,19 +251,37 @@ namespace EnglishLearnGame
 
         private void AgeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            // Verstecke/zeige Placeholder-Text
+            AgePlaceholderText.Visibility = string.IsNullOrWhiteSpace(AgeTextBox.Text) ? Visibility.Visible : Visibility.Hidden;
+            
             if (int.TryParse(AgeTextBox.Text, out int age) && age > 0 && age <= 99)
             {
                 characterAge = age;
+                // Gültiges Alter - zeige normalen Tooltip
+                AgeToolTipText.Text = "Gib ein Alter zwischen 1 und 99 ein";
+                AgeToolTipText.Foreground = System.Windows.Media.Brushes.Black;
             }
             else
             {
                 characterAge = 0;
+                // Ungültiges Alter - zeige Warnung im Tooltip
+                AgeToolTipText.Text = "❌ Nur Zahlen zwischen 1 und 99 sind gültig!";
+                AgeToolTipText.Foreground = System.Windows.Media.Brushes.Red;
             }
             ValidateSaveButton();
         }
 
+        private void AgeTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            // Markiere den gesamten Text beim Fokus
+            AgeTextBox.SelectAll();
+        }
+
         private void ClassTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            // Verstecke/zeige Placeholder-Text
+            ClassPlaceholderText.Visibility = string.IsNullOrWhiteSpace(ClassTextBox.Text) ? Visibility.Visible : Visibility.Hidden;
+            
             if (int.TryParse(ClassTextBox.Text, out int classNum) && classNum > 0 && classNum <= 13)
             {
                 characterClass = classNum;
@@ -279,6 +297,12 @@ namespace EnglishLearnGame
                 ClassToolTipText.Foreground = System.Windows.Media.Brushes.Red;
             }
             ValidateSaveButton();
+        }
+
+        private void ClassTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            // Markiere den gesamten Text beim Fokus
+            ClassTextBox.SelectAll();
         }
 
         private void SaveCharacterButton_Click(object sender, RoutedEventArgs e)

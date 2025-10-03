@@ -121,11 +121,29 @@
                                        FontSize="14" 
                                        FontWeight="Bold" 
                                        Margin="0,0,0,5"/>
-                            <TextBox Name="AgeTextBox" 
-                                     FontSize="14" 
-                                     Padding="5" 
-                                     TextChanged="AgeTextBox_TextChanged"
-                                     MaxLength="2"/>
+                            <Grid>
+                                <TextBox Name="AgeTextBox" 
+                                         FontSize="14" 
+                                         Padding="5" 
+                                         TextChanged="AgeTextBox_TextChanged"
+                                         MaxLength="2"
+                                         GotFocus="AgeTextBox_GotFocus"
+                                         Background="Transparent">
+                                    <TextBox.ToolTip>
+                                        <ToolTip>
+                                            <TextBlock Name="AgeToolTipText" 
+                                                       Text="Gib ein Alter zwischen 1 und 99 ein"/>
+                                        </ToolTip>
+                                    </TextBox.ToolTip>
+                                </TextBox>
+                                <TextBlock Text="1-99" 
+                                           FontSize="14" 
+                                           Foreground="#999999" 
+                                           Margin="5,0,0,0" 
+                                           VerticalAlignment="Center"
+                                           IsHitTestVisible="False"
+                                           Name="AgePlaceholderText"/>
+                            </Grid>
                         </StackPanel>
                         
                         <!-- Class Input -->
@@ -134,18 +152,29 @@
                                        FontSize="14" 
                                        FontWeight="Bold" 
                                        Margin="0,0,0,5"/>
-                            <TextBox Name="ClassTextBox" 
-                                     FontSize="14" 
-                                     Padding="5" 
-                                     TextChanged="ClassTextBox_TextChanged"
-                                     MaxLength="2">
-                                <TextBox.ToolTip>
-                                    <ToolTip>
-                                        <TextBlock Name="ClassToolTipText" 
-                                                   Text="Gib eine Klasse zwischen 1 und 13 ein"/>
-                                    </ToolTip>
-                                </TextBox.ToolTip>
-                            </TextBox>
+                            <Grid>
+                                <TextBox Name="ClassTextBox" 
+                                         FontSize="14" 
+                                         Padding="5" 
+                                         TextChanged="ClassTextBox_TextChanged"
+                                         MaxLength="2"
+                                         GotFocus="ClassTextBox_GotFocus"
+                                         Background="Transparent">
+                                    <TextBox.ToolTip>
+                                        <ToolTip>
+                                            <TextBlock Name="ClassToolTipText" 
+                                                       Text="Gib eine Klasse zwischen 1 und 13 ein"/>
+                                        </ToolTip>
+                                    </TextBox.ToolTip>
+                                </TextBox>
+                                <TextBlock Text="1-13" 
+                                           FontSize="14" 
+                                           Foreground="#999999" 
+                                           Margin="5,0,0,0" 
+                                           VerticalAlignment="Center"
+                                           IsHitTestVisible="False"
+                                           Name="ClassPlaceholderText"/>
+                            </Grid>
                         </StackPanel>
                         
                         <!-- Current Selection Info -->
