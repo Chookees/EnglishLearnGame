@@ -32,7 +32,7 @@ namespace EnglishLearnGame
             InitializeComponent();
             characterData = character;
             
-            // Pfade initialisieren
+            // Initialize paths
             resourcesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "ressources");
             saveFilesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "savefiles");
             
@@ -40,48 +40,48 @@ namespace EnglishLearnGame
         }
 
         /// <summary>
-        /// Initialisiert das Spiel
+        /// Initializes the game
         /// </summary>
         private void InitializeGame()
         {
             try
             {
-                // Charakter-Info anzeigen
+                // Show character info
                 LoadCharacterInfo();
                 
-                // Vokabeln laden
+                // Load vocabulary
                 LoadVocabulary();
                 
-                // UI aktualisieren
+                // Update UI
                 UpdateUI();
                 
-                // Timer starten
+                // Start timer
                 sessionStartTime = DateTime.Now;
                 gameTimer = new DispatcherTimer();
                 gameTimer.Interval = TimeSpan.FromSeconds(1);
                 gameTimer.Tick += GameTimer_Tick;
                 gameTimer.Start();
                 
-                // Erstes Wort anzeigen
+                // Show first word
                 ShowNextWord();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Fehler beim Initialisieren des Spiels: {ex.Message}", 
-                               "Fehler", 
+                MessageBox.Show($"Error initializing game: {ex.Message}", 
+                               "Error", 
                                MessageBoxButton.OK, 
                                MessageBoxImage.Error);
             }
         }
 
         /// <summary>
-        /// Lädt Charakter-Informationen
+        /// Loads character information
         /// </summary>
         private void LoadCharacterInfo()
         {
             if (characterData == null) return;
 
-            // Charakter-Bild laden
+            // Load character image
             string characterPath = Path.Combine(resourcesPath, "char_editor", characterData.Category, $"{characterData.Character}.png");
             if (File.Exists(characterPath))
             {
@@ -94,16 +94,16 @@ namespace EnglishLearnGame
                 CharacterImage.Source = bitmap;
             }
 
-            // Charakter-Details anzeigen
+            // Show character details
             CharacterNameText.Text = characterData.Name;
             CharacterDetailsText.Text = $"Alter: {characterData.Age} | Klasse: {characterData.Class}";
 
-            // Statistiken laden
+            // Load statistics
             LoadStatistics();
         }
 
         /// <summary>
-        /// Lädt Statistiken für die aktuelle Schwierigkeitsstufe
+        /// Loads statistics for the current difficulty level
         /// </summary>
         private void LoadStatistics()
         {

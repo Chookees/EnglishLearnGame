@@ -17,10 +17,10 @@ namespace EnglishLearnGame
         {
             InitializeComponent();
             
-            // Pfad zum savefiles Ordner relativ zum Projekt
+            // Path to savefiles folder relative to project
             saveFilesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "..", "savefiles");
             
-            // Lade verfügbare Charaktere und aktualisiere UI
+            // Load available characters and update UI
             LoadAvailableCharacters();
         }
 
@@ -28,23 +28,23 @@ namespace EnglishLearnGame
         {
             if (availableCharacters.Count == 0)
             {
-                // Kein Spielstand - öffne Charakter-Editor für neuen Spieler
+                // No save file - open character editor for new player
                 CharacterEditor characterEditor = new CharacterEditor();
                 characterEditor.Owner = this;
                 characterEditor.Closed += (s, e) => {
-                    // Lade Charaktere neu wenn der Editor geschlossen wird
+                    // Reload characters when editor is closed
                     LoadAvailableCharacters();
                 };
                 characterEditor.Show();
             }
             else if (availableCharacters.Count == 1)
             {
-                // Ein Spielstand - lade direkt
+                // One save file - load directly
                 LoadCharacter(availableCharacters[0]);
             }
             else
             {
-                // Mehrere Spielstände - zeige Auswahl
+                // Multiple save files - show selection
                 SaveFileSelectionWindow selectionWindow = new SaveFileSelectionWindow();
                 selectionWindow.Owner = this;
                 
@@ -57,7 +57,7 @@ namespace EnglishLearnGame
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            // Öffne Einstellungsfenster
+            // Open settings window
             SettingsWindow settingsWindow = new SettingsWindow();
             settingsWindow.Owner = this;
             settingsWindow.ShowDialog();
@@ -65,7 +65,7 @@ namespace EnglishLearnGame
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
-            // Beende das Programm komplett
+            // Exit program completely
             var result = MessageBox.Show("Möchtest du das Spiel wirklich beenden?", 
                                         "Spiel beenden", 
                                         MessageBoxButton.YesNo, 
@@ -78,7 +78,7 @@ namespace EnglishLearnGame
         }
 
         /// <summary>
-        /// Lädt alle verfügbaren Charaktere und aktualisiert die UI
+        /// Loads all available characters and updates the UI
         /// </summary>
         private void LoadAvailableCharacters()
         {
@@ -89,8 +89,8 @@ namespace EnglishLearnGame
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Fehler beim Laden der Charaktere: {ex.Message}", 
-                               "Fehler", 
+                MessageBox.Show($"Error loading characters: {ex.Message}", 
+                               "Error", 
                                MessageBoxButton.OK, 
                                MessageBoxImage.Error);
                 availableCharacters = new List<CharacterData>();
@@ -99,19 +99,19 @@ namespace EnglishLearnGame
         }
 
         /// <summary>
-        /// Aktualisiert die UI basierend auf verfügbaren Charakteren
+        /// Updates UI based on available characters
         /// </summary>
         private void UpdateUI()
         {
             if (availableCharacters.Count == 0)
             {
-                // Kein Spielstand - zeige "Start"
+                // No save file - show "Start"
                 StartButton.Content = "🚀 Start";
                 CharacterInfoPanel.Visibility = Visibility.Collapsed;
             }
             else if (availableCharacters.Count == 1)
             {
-                // Ein Spielstand - zeige "Fortfahren" mit Charakterdaten
+                // One save file - show "Continue" with character data
                 StartButton.Content = "▶️ Fortfahren";
                 CharacterInfoPanel.Visibility = Visibility.Visible;
                 
@@ -121,41 +121,41 @@ namespace EnglishLearnGame
             }
             else
             {
-                // Mehrere Spielstände - zeige "Fortfahren"
+                // Multiple save files - show "Continue"
                 StartButton.Content = "▶️ Fortfahren";
                 CharacterInfoPanel.Visibility = Visibility.Collapsed;
             }
         }
 
-                /// <summary>
-                /// Lädt einen Charakter und startet das Spiel
-                /// </summary>
-                /// <param name="character">Der zu ladende Charakter</param>
+        /// <summary>
+        /// Loads a character and starts the game
+        /// </summary>
+        /// <param name="character">The character to load</param>
                 private void LoadCharacter(CharacterData character)
                 {
                     try
                     {
-                        // Öffne Loading Window
+                        // Open Loading Window
                         LoadingWindow loadingWindow = new LoadingWindow(character);
                         loadingWindow.Owner = this;
                         loadingWindow.Show();
                         
-                        // Schließe Welcome Screen
+                        // Close Welcome Screen
                         this.Close();
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"Fehler beim Laden des Charakters: {ex.Message}", 
-                                       "Fehler", 
+                        MessageBox.Show($"Error loading character: {ex.Message}", 
+                                       "Error", 
                                        MessageBoxButton.OK, 
                                        MessageBoxImage.Error);
                     }
                 }
 
         /// <summary>
-        /// Prüft ob bereits Savefiles im savefiles Ordner existieren
+        /// Checks if savefiles already exist in the savefiles folder
         /// </summary>
-        /// <returns>True wenn Savefiles gefunden wurden, sonst False</returns>
+        /// <returns>True if savefiles were found, otherwise False</returns>
         private bool HasExistingSaveFiles()
         {
             return availableCharacters.Count > 0;

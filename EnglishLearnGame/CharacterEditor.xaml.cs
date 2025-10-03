@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Media.Imaging;
 
 namespace EnglishLearnGame
@@ -32,46 +29,37 @@ namespace EnglishLearnGame
         {
             InitializeComponent();
             
-            // Pfade zu den Ressourcen und Savefiles - korrigierte Pfade
-            // Von bin\Debug\net8.0-windows\ zu D:\Projects\l\c#\EnglishLearnGame\
+            // Paths to resources and savefiles - corrected paths
             resourcesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "..", "ressources", "char_editor");
             saveFilesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "..", "savefiles");
             
-            // Debug: Zeige den Pfad an
-            System.Diagnostics.Debug.WriteLine($"Resources Path: {resourcesPath}");
-            System.Diagnostics.Debug.WriteLine($"Resources Path exists: {Directory.Exists(resourcesPath)}");
-            
-            // Debug MessageBox für Pfad-Überprüfung
-            MessageBox.Show($"Resources Path: {resourcesPath}\nPath exists: {Directory.Exists(resourcesPath)}", 
-                           "Debug Info", MessageBoxButton.OK, MessageBoxImage.Information);
-            
-            // Initialisiere Karussell-Positionen
+            // Initialize carousel positions
             carouselPositions["human"] = 0;
             carouselPositions["heroes"] = 0;
             carouselPositions["monster"] = 0;
             
-            // Lade die Charakter-Editor Ressourcen
+            // Load character editor resources
             LoadCharacterAssets();
             
-            // Setze Standard-Auswahl
+            // Set default selection
             UpdateSelectionInfo();
         }
 
         private void LoadCharacterAssets()
         {
-            try
-            {
-                // Lade alle Charakter-Kategorien
+                    try
+                    {
+                        // Load all character categories
                 LoadCharacterCategory("human", HumanCarousel);
                 LoadCharacterCategory("heroes", HeroCarousel);
                 LoadCharacterCategory("monster", MonsterCarousel);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Fehler beim Laden der Charakter-Assets: {ex.Message}", 
-                               "Fehler", 
-                               MessageBoxButton.OK, 
-                               MessageBoxImage.Error);
+                        MessageBox.Show($"Error loading character assets: {ex.Message}", 
+                                       "Error", 
+                                       MessageBoxButton.OK, 
+                                       MessageBoxImage.Error);
             }
         }
         
@@ -80,30 +68,17 @@ namespace EnglishLearnGame
             string categoryPath = Path.Combine(resourcesPath, categoryName);
             availableCharacters[categoryName] = new List<string>();
             
-            System.Diagnostics.Debug.WriteLine($"Loading category: {categoryName}");
-            System.Diagnostics.Debug.WriteLine($"Category path: {categoryPath}");
-            System.Diagnostics.Debug.WriteLine($"Category path exists: {Directory.Exists(categoryPath)}");
-            
             if (Directory.Exists(categoryPath))
             {
                 string[] imageFiles = Directory.GetFiles(categoryPath, "*.png");
-                System.Diagnostics.Debug.WriteLine($"Found {imageFiles.Length} PNG files in {categoryPath}");
-                
                 foreach (string file in imageFiles)
                 {
                     string fileName = Path.GetFileNameWithoutExtension(file);
                     availableCharacters[categoryName].Add(fileName);
-                    System.Diagnostics.Debug.WriteLine($"Added character: {fileName}");
                 }
                 
-                System.Diagnostics.Debug.WriteLine($"Loaded {availableCharacters[categoryName].Count} characters for {categoryName}");
-                
-                // Erstelle Karussell für diese Kategorie
+                // Create carousel for this category
                 CreateCarousel(categoryName, carouselPanel);
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine($"Category path does not exist: {categoryPath}");
             }
         }
         
@@ -117,7 +92,7 @@ namespace EnglishLearnGame
             var characters = availableCharacters[categoryName];
             int currentPos = carouselPositions[categoryName];
             
-            // Zeige 5 Charaktere: 2 links, 1 mittig (groß), 2 rechts
+                    // Show 5 characters: 2 left, 1 center (large), 2 right
             for (int i = -2; i <= 2; i++)
             {
                 int index = (currentPos + i + characters.Count) % characters.Count;
@@ -156,7 +131,7 @@ namespace EnglishLearnGame
                     Stretch = System.Windows.Media.Stretch.Uniform
                 };
                 
-                // Größe basierend auf Position
+                // Size based on position
                 if (isCenter)
                 {
                     image.Width = 120;
@@ -187,9 +162,7 @@ namespace EnglishLearnGame
             selectedCategory = categoryName;
             selectedCharacter = characterName;
             
-            System.Diagnostics.Debug.WriteLine($"Character selected: {categoryName}/{characterName}");
-            
-            // Aktualisiere die Karussell-Position für die ausgewählte Kategorie
+                    // Update carousel position for selected category
             if (availableCharacters.ContainsKey(categoryName))
             {
                 var characters = availableCharacters[categoryName];
@@ -198,7 +171,7 @@ namespace EnglishLearnGame
                 {
                     carouselPositions[categoryName] = characterIndex;
                     
-                    // Aktualisiere das entsprechende Karussell
+                            // Update corresponding carousel
                     switch (categoryName.ToLower())
                     {
                         case "human":
