@@ -305,6 +305,28 @@ namespace EnglishLearnGame
             ClassTextBox.SelectAll();
         }
 
+        /// <summary>
+        /// Zeigt eine Willkommensnachricht nach der Charakter-Erstellung
+        /// </summary>
+        /// <param name="characterName">Name des erstellten Charakters</param>
+        private void ShowWelcomeMessage(string characterName)
+        {
+            string welcomeMessage = $"🎉 Willkommen {characterName}! 🎉\n\n" +
+                                   "Dein Charakter wurde erfolgreich erstellt!\n\n" +
+                                   "📚 **Schwierigkeitsstufen:**\n" +
+                                   "• Du kannst die Schwierigkeit jederzeit in den Einstellungen ändern\n" +
+                                   "• Verfügbare Stufen: A1, A2, B1, B2, C1, C2\n\n" +
+                                   "🎯 **Tipp:**\n" +
+                                   "Sobald du alle Vokabeln einer Stufe korrekt ohne Fehler übersetzt hast, " +
+                                   "wird empfohlen, die nächste Stufe einzustellen!\n\n" +
+                                   "Viel Erfolg beim Englisch lernen! 🌟";
+
+            MessageBox.Show(welcomeMessage, 
+                           "Willkommen im Englisch-Lernspiel!", 
+                           MessageBoxButton.OK, 
+                           MessageBoxImage.Information);
+        }
+
         private void SaveCharacterButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -342,10 +364,8 @@ namespace EnglishLearnGame
                 
                 File.WriteAllText(filePath, json);
                 
-                MessageBox.Show($"Charakter '{characterName}' wurde erfolgreich gespeichert!\n\nDatei: {fileName}", 
-                               "Charakter gespeichert", 
-                               MessageBoxButton.OK, 
-                               MessageBoxImage.Information);
+                // Zeige Willkommensnachricht
+                ShowWelcomeMessage(characterName);
                 
                 // Schließe den Editor
                 this.Close();
