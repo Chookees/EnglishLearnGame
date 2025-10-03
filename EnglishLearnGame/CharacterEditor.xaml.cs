@@ -41,6 +41,10 @@ namespace EnglishLearnGame
             System.Diagnostics.Debug.WriteLine($"Resources Path: {resourcesPath}");
             System.Diagnostics.Debug.WriteLine($"Resources Path exists: {Directory.Exists(resourcesPath)}");
             
+            // Debug MessageBox für Pfad-Überprüfung
+            MessageBox.Show($"Resources Path: {resourcesPath}\nPath exists: {Directory.Exists(resourcesPath)}", 
+                           "Debug Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            
             // Initialisiere Karussell-Positionen
             carouselPositions["human"] = 0;
             carouselPositions["heroes"] = 0;
@@ -71,24 +75,35 @@ namespace EnglishLearnGame
             }
         }
         
-        private void LoadCharacterCategory(string categoryName, StackPanel carouselPanel)
+                private void LoadCharacterCategory(string categoryName, StackPanel carouselPanel)
         {
             string categoryPath = Path.Combine(resourcesPath, categoryName);
             availableCharacters[categoryName] = new List<string>();
             
+            System.Diagnostics.Debug.WriteLine($"Loading category: {categoryName}");
+            System.Diagnostics.Debug.WriteLine($"Category path: {categoryPath}");
+            System.Diagnostics.Debug.WriteLine($"Category path exists: {Directory.Exists(categoryPath)}");
+            
             if (Directory.Exists(categoryPath))
             {
                 string[] imageFiles = Directory.GetFiles(categoryPath, "*.png");
+                System.Diagnostics.Debug.WriteLine($"Found {imageFiles.Length} PNG files in {categoryPath}");
+                
                 foreach (string file in imageFiles)
                 {
                     string fileName = Path.GetFileNameWithoutExtension(file);
                     availableCharacters[categoryName].Add(fileName);
+                    System.Diagnostics.Debug.WriteLine($"Added character: {fileName}");
                 }
                 
                 System.Diagnostics.Debug.WriteLine($"Loaded {availableCharacters[categoryName].Count} characters for {categoryName}");
                 
                 // Erstelle Karussell für diese Kategorie
                 CreateCarousel(categoryName, carouselPanel);
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine($"Category path does not exist: {categoryPath}");
             }
         }
         
@@ -441,5 +456,26 @@ namespace EnglishLearnGame
         public string Character { get; set; } = "";
         public DateTime CreatedDate { get; set; }
         public string Hash { get; set; } = "";
+        
+        // Lernstatistiken pro Schwierigkeitsstufe
+        public Dictionary<string, LevelStatistics> LevelStats { get; set; } = new Dictionary<string, LevelStatistics>();
+        
+        // Aktuelle Einstellungen
+        public string CurrentDifficulty { get; set; } = "A1";
+        public int LanguageDirection { get; set; } = 0; // 0 = Deutsch→Englisch, 1 = Englisch→Deutsch
+    }
+
+    /// <summary>
+    /// Statistiken für eine Schwierigkeitsstufe
+    /// </summary>
+    public class LevelStatistics
+    {
+        public int CorrectAnswers { get; set; } = 0;
+        public int WrongAnswers { get; set; } = 0;
+        public int TotalWords { get; set; } = 0;
+        public bool LevelCompleted { get; set; } = false;
+        public DateTime LastPlayed { get; set; } = DateTime.Now;
+        public int CurrentStreak { get; set; } = 0; // Aktuelle richtige Antworten in Folge
+        public int BestStreak { get; set; } = 0; // Bester Streak für diese Stufe
     }
 }

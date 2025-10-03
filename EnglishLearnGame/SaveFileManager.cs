@@ -17,7 +17,7 @@ namespace EnglishLearnGame
         public static List<CharacterData> LoadAllCharacters()
         {
             var characters = new List<CharacterData>();
-            string saveFilesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "..", "savefiles");
+            string saveFilesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "savefiles");
             
             try
             {
@@ -61,7 +61,7 @@ namespace EnglishLearnGame
         /// <returns>Charakterdaten oder null wenn nicht gefunden</returns>
         public static CharacterData LoadCharacter(string fileName)
         {
-            string saveFilesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "..", "savefiles");
+            string saveFilesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "savefiles");
             string filePath = Path.Combine(saveFilesPath, fileName);
             
             try
@@ -86,7 +86,7 @@ namespace EnglishLearnGame
         /// <returns>Anzahl der gefundenen Savefiles</returns>
         public static int GetSaveFileCount()
         {
-            string saveFilesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "..", "savefiles");
+            string saveFilesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "savefiles");
             
             try
             {

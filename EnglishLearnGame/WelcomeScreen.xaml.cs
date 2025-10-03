@@ -127,33 +127,30 @@ namespace EnglishLearnGame
             }
         }
 
-        /// <summary>
-        /// Lädt einen Charakter und startet das Spiel
-        /// </summary>
-        /// <param name="character">Der zu ladende Charakter</param>
-        private void LoadCharacter(CharacterData character)
-        {
-            try
-            {
-                // TODO: Hier wird später das Hauptspiel gestartet
-                MessageBox.Show($"Charakter '{character.Name}' wird geladen!\n\nAlter: {character.Age}\nKlasse: {character.Class}\n\nDas Spiel wird bald gestartet!", 
-                               "Charakter geladen", 
-                               MessageBoxButton.OK, 
-                               MessageBoxImage.Information);
-                
-                // Hier würde normalerweise das Hauptspiel-Fenster geöffnet werden
-                // MainGameWindow mainGame = new MainGameWindow(character);
-                // mainGame.Show();
-                // this.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Fehler beim Laden des Charakters: {ex.Message}", 
-                               "Fehler", 
-                               MessageBoxButton.OK, 
-                               MessageBoxImage.Error);
-            }
-        }
+                /// <summary>
+                /// Lädt einen Charakter und startet das Spiel
+                /// </summary>
+                /// <param name="character">Der zu ladende Charakter</param>
+                private void LoadCharacter(CharacterData character)
+                {
+                    try
+                    {
+                        // Öffne Loading Window
+                        LoadingWindow loadingWindow = new LoadingWindow(character);
+                        loadingWindow.Owner = this;
+                        loadingWindow.Show();
+                        
+                        // Schließe Welcome Screen
+                        this.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Fehler beim Laden des Charakters: {ex.Message}", 
+                                       "Fehler", 
+                                       MessageBoxButton.OK, 
+                                       MessageBoxImage.Error);
+                    }
+                }
 
         /// <summary>
         /// Prüft ob bereits Savefiles im savefiles Ordner existieren

@@ -21,7 +21,7 @@ namespace EnglishLearnGame
         {
             InitializeComponent();
             
-            resourcesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "..", "ressources", "char_editor");
+                    resourcesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "ressources", "char_editor");
             
             LoadCharacters();
         }
@@ -95,7 +95,7 @@ namespace EnglishLearnGame
         {
             if (value is CharacterData character && parameter is string imageType)
             {
-                string resourcesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "..", "ressources", "char_editor");
+                        string resourcesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "ressources", "char_editor");
                 string imagePath = "";
                 
                 switch (imageType.ToLower())
