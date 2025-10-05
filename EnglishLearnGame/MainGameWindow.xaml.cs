@@ -33,8 +33,8 @@ namespace EnglishLearnGame
             characterData = character;
             
             // Initialize paths
-            resourcesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "ressources");
-            saveFilesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "savefiles");
+            resourcesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "..", "ressources");
+            saveFilesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "..", "savefiles");
             
             InitializeGame();
         }
@@ -144,16 +144,47 @@ namespace EnglishLearnGame
             vocabularyWords = new List<VocabularyWord>();
             string difficulty = characterData?.CurrentDifficulty ?? ConfigManager.DifficultyLevel;
             
-            string csvPath = Path.Combine(resourcesPath, "vocabulary", $"{difficulty}.csv");
+            // Try multiple possible paths for the CSV file
+            string[] possiblePaths = {
+                Path.Combine(resourcesPath, "vocabulary", $"{difficulty}.csv"),
+                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "..", "ressources", "vocabulary", $"{difficulty}.csv"),
+                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "ressources", "vocabulary", $"{difficulty}.csv"),
+                Path.Combine(Directory.GetCurrentDirectory(), "ressources", "vocabulary", $"{difficulty}.csv"),
+                Path.Combine(Environment.CurrentDirectory, "ressources", "vocabulary", $"{difficulty}.csv")
+            };
             
-            if (File.Exists(csvPath))
+            string csvPath = null;
+            foreach (string path in possiblePaths)
+            {
+                string fullPath = Path.GetFullPath(path);
+                if (File.Exists(fullPath))
+                {
+                    csvPath = fullPath;
+                    break;
+                }
+            }
+            
+            // Debug output
+            System.Diagnostics.Debug.WriteLine($"Difficulty: {difficulty}");
+            System.Diagnostics.Debug.WriteLine($"CSV Path found: {csvPath ?? "NONE"}");
+            
+            if (!string.IsNullOrEmpty(csvPath) && File.Exists(csvPath))
             {
                 string[] lines = File.ReadAllLines(csvPath);
+                System.Diagnostics.Debug.WriteLine($"CSV lines loaded: {lines.Length}");
+                
                 foreach (string line in lines.Skip(1)) // Header überspringen
                 {
                     if (!string.IsNullOrWhiteSpace(line))
                     {
-                        string[] parts = line.Split(';');
+                        // Try both comma and semicolon as separators
+                        string[] parts = line.Split(',');
+                        if (parts.Length < 2)
+                        {
+                            parts = line.Split(';');
+                        }
+                        
+                        System.Diagnostics.Debug.WriteLine($"Line: '{line}' -> Parts: {parts.Length}");
                         if (parts.Length >= 2)
                         {
                             vocabularyWords.Add(new VocabularyWord
@@ -165,8 +196,18 @@ namespace EnglishLearnGame
                     }
                 }
             }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine($"CSV file not found for difficulty: {difficulty}");
+                System.Diagnostics.Debug.WriteLine("Tried paths:");
+                foreach (string path in possiblePaths)
+                {
+                    System.Diagnostics.Debug.WriteLine($"  - {Path.GetFullPath(path)}");
+                }
+            }
             
             totalWords = vocabularyWords.Count;
+            System.Diagnostics.Debug.WriteLine($"Total vocabulary words loaded: {totalWords}");
             
             // Vokabeln mischen falls aktiviert
             if (ConfigManager.RandomizeWordOrder)
@@ -193,9 +234,28 @@ namespace EnglishLearnGame
         {
             if (vocabularyWords.Count == 0)
             {
-                // Alle Vokabeln bearbeitet
-                ShowLevelCompleteMessage();
-                return;
+                if (totalWords == 0)
+                {
+                    // Keine Vokabeln geladen - Fehler
+                    string errorMessage = $"Fehler: Keine Vokabeln für Schwierigkeit '{characterData?.CurrentDifficulty ?? ConfigManager.DifficultyLevel}' gefunden!\n\n" +
+                                        "Bitte überprüfe, ob die CSV-Datei existiert und korrekt formatiert ist.\n\n" +
+                                        "Debug-Informationen findest du im Output-Fenster deiner IDE.";
+                    
+                    MessageBox.Show(errorMessage,
+                                   "Fehler beim Laden der Vokabeln",
+                                   MessageBoxButton.OK,
+                                   MessageBoxImage.Error);
+                    
+                    // Window schließen und zurück zum Hauptmenü
+                    this.DialogResult = false;
+                    return;
+                }
+                else
+                {
+                    // Alle Vokabeln bearbeitet
+                    ShowLevelCompleteMessage();
+                    return;
+                }
             }
 
             // Zufälliges Wort auswählen
@@ -356,7 +416,7 @@ namespace EnglishLearnGame
             else
             {
                 // Zurück zum Menü
-                this.Close();
+                this.DialogResult = true;
             }
         }
 
@@ -384,23 +444,11 @@ namespace EnglishLearnGame
             CheckAnswer();
         }
 
-        private void SettingsButton_Click(object sender, RoutedEventArgs e)
-        {
-            SettingsWindow settingsWindow = new SettingsWindow();
-            settingsWindow.Owner = this;
-            if (settingsWindow.ShowDialog() == true)
-            {
-                // Einstellungen wurden geändert, neu laden
-                ConfigManager.LoadConfig();
-                LoadStatistics();
-                UpdateUI();
-            }
-        }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             gameTimer?.Stop();
-            this.Close();
+            this.DialogResult = true;
         }
 
         private void GameTimer_Tick(object sender, EventArgs e)

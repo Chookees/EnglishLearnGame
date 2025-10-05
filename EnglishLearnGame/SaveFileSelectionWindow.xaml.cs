@@ -21,7 +21,7 @@ namespace EnglishLearnGame
         {
             InitializeComponent();
             
-                    resourcesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "ressources", "char_editor");
+                    resourcesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "..", "ressources", "char_editor");
             
             LoadCharacters();
         }

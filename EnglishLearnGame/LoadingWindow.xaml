@@ -34,28 +34,199 @@
             
             <!-- Loading Content -->
             <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <!-- Loading Animation -->
-                <Border Width="60" Height="60" 
-                        Background="#32CD32" 
-                        CornerRadius="30"
-                        HorizontalAlignment="Center"
-                        Margin="0,0,0,20">
-                    <Border.RenderTransform>
-                        <RotateTransform x:Name="LoadingRotation" Angle="0"/>
-                    </Border.RenderTransform>
-                    <Border.Triggers>
+                <!-- Windows 11 Style Loading Animation -->
+                <Canvas Width="100" Height="100" Margin="0,0,0,20">
+                    <!-- Dot 1 - positioned at different angles -->
+                    <Ellipse Width="8" Height="8" 
+                             Fill="#0078D4" 
+                             Canvas.Left="46" Canvas.Top="46">
+                        <Ellipse.RenderTransform>
+                            <TransformGroup>
+                                <TranslateTransform x:Name="Dot1Translate" X="0" Y="0"/>
+                                <ScaleTransform x:Name="Dot1Scale" ScaleX="1" ScaleY="1"/>
+                            </TransformGroup>
+                        </Ellipse.RenderTransform>
+                    </Ellipse>
+                    
+                    <!-- Dot 2 -->
+                    <Ellipse Width="8" Height="8" 
+                             Fill="#0078D4" 
+                             Canvas.Left="46" Canvas.Top="46">
+                        <Ellipse.RenderTransform>
+                            <TransformGroup>
+                                <TranslateTransform x:Name="Dot2Translate" X="0" Y="0"/>
+                                <ScaleTransform x:Name="Dot2Scale" ScaleX="1" ScaleY="1"/>
+                            </TransformGroup>
+                        </Ellipse.RenderTransform>
+                    </Ellipse>
+                    
+                    <!-- Dot 3 -->
+                    <Ellipse Width="8" Height="8" 
+                             Fill="#0078D4" 
+                             Canvas.Left="46" Canvas.Top="46">
+                        <Ellipse.RenderTransform>
+                            <TransformGroup>
+                                <TranslateTransform x:Name="Dot3Translate" X="0" Y="0"/>
+                                <ScaleTransform x:Name="Dot3Scale" ScaleX="1" ScaleY="1"/>
+                            </TransformGroup>
+                        </Ellipse.RenderTransform>
+                    </Ellipse>
+                    
+                    <!-- Dot 4 -->
+                    <Ellipse Width="8" Height="8" 
+                             Fill="#0078D4" 
+                             Canvas.Left="46" Canvas.Top="46">
+                        <Ellipse.RenderTransform>
+                            <TransformGroup>
+                                <TranslateTransform x:Name="Dot4Translate" X="0" Y="0"/>
+                                <ScaleTransform x:Name="Dot4Scale" ScaleX="1" ScaleY="1"/>
+                            </TransformGroup>
+                        </Ellipse.RenderTransform>
+                    </Ellipse>
+                    
+                    <!-- Dot 5 -->
+                    <Ellipse Width="8" Height="8" 
+                             Fill="#0078D4" 
+                             Canvas.Left="46" Canvas.Top="46">
+                        <Ellipse.RenderTransform>
+                            <TransformGroup>
+                                <TranslateTransform x:Name="Dot5Translate" X="0" Y="0"/>
+                                <ScaleTransform x:Name="Dot5Scale" ScaleX="1" ScaleY="1"/>
+                            </TransformGroup>
+                        </Ellipse.RenderTransform>
+                    </Ellipse>
+                    
+                    <!-- Dot 6 -->
+                    <Ellipse Width="8" Height="8" 
+                             Fill="#0078D4" 
+                             Canvas.Left="46" Canvas.Top="46">
+                        <Ellipse.RenderTransform>
+                            <TransformGroup>
+                                <TranslateTransform x:Name="Dot6Translate" X="0" Y="0"/>
+                                <ScaleTransform x:Name="Dot6Scale" ScaleX="1" ScaleY="1"/>
+                            </TransformGroup>
+                        </Ellipse.RenderTransform>
+                    </Ellipse>
+                    
+                    <!-- Central dot -->
+                    <Ellipse Width="10" Height="10" 
+                             Fill="#106EBE" 
+                             Canvas.Left="45" Canvas.Top="45">
+                        <Ellipse.RenderTransform>
+                            <ScaleTransform x:Name="CentralScale" ScaleX="1" ScaleY="1"/>
+                        </Ellipse.RenderTransform>
+                    </Ellipse>
+                    
+                    <!-- Animation Triggers -->
+                    <Canvas.Triggers>
                         <EventTrigger RoutedEvent="Loaded">
                             <BeginStoryboard>
                                 <Storyboard RepeatBehavior="Forever">
-                                    <DoubleAnimation Storyboard.TargetName="LoadingRotation"
-                                                     Storyboard.TargetProperty="Angle"
-                                                     From="0" To="360" Duration="0:0:1"/>
+                                    <!-- Central pulsing -->
+                                    <DoubleAnimation Storyboard.TargetName="CentralScale"
+                                                     Storyboard.TargetProperty="ScaleX"
+                                                     From="1" To="1.2" Duration="0:0:0.8"
+                                                     AutoReverse="True"/>
+                                    <DoubleAnimation Storyboard.TargetName="CentralScale"
+                                                     Storyboard.TargetProperty="ScaleY"
+                                                     From="1" To="1.2" Duration="0:0:0.8"
+                                                     AutoReverse="True"/>
+                                    
+                                    <!-- Dot 1 - 0° -->
+                                    <DoubleAnimation Storyboard.TargetName="Dot1Translate"
+                                                     Storyboard.TargetProperty="X"
+                                                     From="0" To="20" Duration="0:0:0.5"
+                                                     BeginTime="0:0:0.0"/>
+                                    <DoubleAnimation Storyboard.TargetName="Dot1Translate"
+                                                     Storyboard.TargetProperty="X"
+                                                     From="20" To="0" Duration="0:0:0.5"
+                                                     BeginTime="0:0:0.5"/>
+                                    
+                                    <!-- Dot 2 - 60° -->
+                                    <DoubleAnimation Storyboard.TargetName="Dot2Translate"
+                                                     Storyboard.TargetProperty="X"
+                                                     From="0" To="10" Duration="0:0:0.5"
+                                                     BeginTime="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetName="Dot2Translate"
+                                                     Storyboard.TargetProperty="Y"
+                                                     From="0" To="-17" Duration="0:0:0.5"
+                                                     BeginTime="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetName="Dot2Translate"
+                                                     Storyboard.TargetProperty="X"
+                                                     From="10" To="0" Duration="0:0:0.5"
+                                                     BeginTime="0:0:0.6"/>
+                                    <DoubleAnimation Storyboard.TargetName="Dot2Translate"
+                                                     Storyboard.TargetProperty="Y"
+                                                     From="-17" To="0" Duration="0:0:0.5"
+                                                     BeginTime="0:0:0.6"/>
+                                    
+                                    <!-- Dot 3 - 120° -->
+                                    <DoubleAnimation Storyboard.TargetName="Dot3Translate"
+                                                     Storyboard.TargetProperty="X"
+                                                     From="0" To="-10" Duration="0:0:0.5"
+                                                     BeginTime="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetName="Dot3Translate"
+                                                     Storyboard.TargetProperty="Y"
+                                                     From="0" To="-17" Duration="0:0:0.5"
+                                                     BeginTime="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetName="Dot3Translate"
+                                                     Storyboard.TargetProperty="X"
+                                                     From="-10" To="0" Duration="0:0:0.5"
+                                                     BeginTime="0:0:0.7"/>
+                                    <DoubleAnimation Storyboard.TargetName="Dot3Translate"
+                                                     Storyboard.TargetProperty="Y"
+                                                     From="-17" To="0" Duration="0:0:0.7"/>
+                                    
+                                    <!-- Dot 4 - 180° -->
+                                    <DoubleAnimation Storyboard.TargetName="Dot4Translate"
+                                                     Storyboard.TargetProperty="X"
+                                                     From="0" To="-20" Duration="0:0:0.5"
+                                                     BeginTime="0:0:0.3"/>
+                                    <DoubleAnimation Storyboard.TargetName="Dot4Translate"
+                                                     Storyboard.TargetProperty="X"
+                                                     From="-20" To="0" Duration="0:0:0.5"
+                                                     BeginTime="0:0:0.8"/>
+                                    
+                                    <!-- Dot 5 - 240° -->
+                                    <DoubleAnimation Storyboard.TargetName="Dot5Translate"
+                                                     Storyboard.TargetProperty="X"
+                                                     From="0" To="-10" Duration="0:0:0.5"
+                                                     BeginTime="0:0:0.4"/>
+                                    <DoubleAnimation Storyboard.TargetName="Dot5Translate"
+                                                     Storyboard.TargetProperty="Y"
+                                                     From="0" To="17" Duration="0:0:0.5"
+                                                     BeginTime="0:0:0.4"/>
+                                    <DoubleAnimation Storyboard.TargetName="Dot5Translate"
+                                                     Storyboard.TargetProperty="X"
+                                                     From="-10" To="0" Duration="0:0:0.5"
+                                                     BeginTime="0:0:0.9"/>
+                                    <DoubleAnimation Storyboard.TargetName="Dot5Translate"
+                                                     Storyboard.TargetProperty="Y"
+                                                     From="17" To="0" Duration="0:0:0.5"
+                                                     BeginTime="0:0:0.9"/>
+                                    
+                                    <!-- Dot 6 - 300° -->
+                                    <DoubleAnimation Storyboard.TargetName="Dot6Translate"
+                                                     Storyboard.TargetProperty="X"
+                                                     From="0" To="10" Duration="0:0:0.5"
+                                                     BeginTime="0:0:0.5"/>
+                                    <DoubleAnimation Storyboard.TargetName="Dot6Translate"
+                                                     Storyboard.TargetProperty="Y"
+                                                     From="0" To="17" Duration="0:0:0.5"
+                                                     BeginTime="0:0:0.5"/>
+                                    <DoubleAnimation Storyboard.TargetName="Dot6Translate"
+                                                     Storyboard.TargetProperty="X"
+                                                     From="10" To="0" Duration="0:0:0.5"
+                                                     BeginTime="0:0:1.0"/>
+                                    <DoubleAnimation Storyboard.TargetName="Dot6Translate"
+                                                     Storyboard.TargetProperty="Y"
+                                                     From="17" To="0" Duration="0:0:0.5"
+                                                     BeginTime="0:0:1.0"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
-                    </Border.Triggers>
-                    <TextBlock Text="📚" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
+                    </Canvas.Triggers>
+                </Canvas>
                 
                 <!-- Status Messages -->
                 <TextBlock Name="StatusText" 

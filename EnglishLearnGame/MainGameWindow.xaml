@@ -219,19 +219,6 @@
                 
                 <!-- Kontrollen -->
                 <StackPanel Margin="0,20,0,0">
-                    <Button Name="SettingsButton" 
-                            Content="⚙️ Einstellungen" 
-                            Width="250" 
-                            Height="40" 
-                            FontSize="14" 
-                            FontWeight="Bold"
-                            Background="#4682B4" 
-                            Foreground="White"
-                            BorderThickness="0"
-                            Margin="0,0,0,10"
-                            Click="SettingsButton_Click"
-                            Cursor="Hand"/>
-                    
                     <Button Name="BackButton" 
                             Content="⬅️ Zurück zum Menü" 
                             Width="250" 

@@ -31,20 +31,20 @@ namespace EnglishLearnGame
                 // No save file - open character editor for new player
                 CharacterEditor characterEditor = new CharacterEditor();
                 characterEditor.Owner = this;
-                characterEditor.Closed += (s, e) => {
-                    // Reload characters when editor is closed
-                    LoadAvailableCharacters();
-                };
-                characterEditor.Show();
-            }
-            else if (availableCharacters.Count == 1)
-            {
-                // One save file - load directly
-                LoadCharacter(availableCharacters[0]);
+                characterEditor.ShowDialog();
+                
+                // After character editor is closed, reload characters and check if we should start the game
+                LoadAvailableCharacters();
+                
+                // If exactly one character was created, start the game immediately
+                if (availableCharacters.Count == 1)
+                {
+                    LoadCharacter(availableCharacters[0]);
+                }
             }
             else
             {
-                // Multiple save files - show selection
+                // Always show selection window when "Fortfahren" is clicked
                 SaveFileSelectionWindow selectionWindow = new SaveFileSelectionWindow();
                 selectionWindow.Owner = this;
                 
@@ -75,6 +75,17 @@ namespace EnglishLearnGame
             {
                 Application.Current.Shutdown();
             }
+        }
+
+        private void NewCharacterButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Open character editor for new character
+            CharacterEditor characterEditor = new CharacterEditor();
+            characterEditor.Owner = this;
+            characterEditor.ShowDialog();
+            
+            // After character editor is closed, reload characters
+            LoadAvailableCharacters();
         }
 
         /// <summary>
@@ -108,22 +119,14 @@ namespace EnglishLearnGame
                 // No save file - show "Start"
                 StartButton.Content = "🚀 Start";
                 CharacterInfoPanel.Visibility = Visibility.Collapsed;
-            }
-            else if (availableCharacters.Count == 1)
-            {
-                // One save file - show "Continue" with character data
-                StartButton.Content = "▶️ Fortfahren";
-                CharacterInfoPanel.Visibility = Visibility.Visible;
-                
-                var character = availableCharacters[0];
-                CharacterNameDisplay.Text = character.Name;
-                CharacterDetailsDisplay.Text = $"Alter: {character.Age} | Klasse: {character.Class}";
+                NewCharacterButton.Visibility = Visibility.Collapsed;
             }
             else
             {
-                // Multiple save files - show "Continue"
+                // Save files exist - show "Continue" and "Neu" button
                 StartButton.Content = "▶️ Fortfahren";
                 CharacterInfoPanel.Visibility = Visibility.Collapsed;
+                NewCharacterButton.Visibility = Visibility.Visible;
             }
         }
 
@@ -137,7 +140,6 @@ namespace EnglishLearnGame
                     {
                         // Open Loading Window
                         LoadingWindow loadingWindow = new LoadingWindow(character);
-                        loadingWindow.Owner = this;
                         loadingWindow.Show();
                         
                         // Close Welcome Screen

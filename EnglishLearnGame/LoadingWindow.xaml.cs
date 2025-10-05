@@ -60,9 +60,35 @@ namespace EnglishLearnGame
                 // Main Game öffnen
                 Dispatcher.Invoke(() =>
                 {
-                    MainGameWindow mainGame = new MainGameWindow(characterData);
-                    mainGame.Show();
-                    this.Close();
+                    try
+                    {
+                        MainGameWindow mainGame = new MainGameWindow(characterData);
+                        mainGame.Owner = this;
+                        bool? result = mainGame.ShowDialog();
+                        
+                        // Wenn MainGameWindow wegen Fehler geschlossen wurde, zurück zum Hauptmenü
+                        if (result == false)
+                        {
+                            // Zurück zum Hauptmenü (WelcomeScreen)
+                            WelcomeScreen welcomeScreen = new WelcomeScreen();
+                            welcomeScreen.Show();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Fehler beim Öffnen des Spiels: {ex.Message}", 
+                                       "Fehler", 
+                                       MessageBoxButton.OK, 
+                                       MessageBoxImage.Error);
+                        
+                        // Zurück zum Hauptmenü
+                        WelcomeScreen welcomeScreen = new WelcomeScreen();
+                        welcomeScreen.Show();
+                    }
+                    finally
+                    {
+                        this.Close();
+                    }
                 });
             }
             catch (Exception ex)
